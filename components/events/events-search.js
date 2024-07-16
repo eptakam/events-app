@@ -22,6 +22,7 @@ function submitHandler(event) {
   const selectedMonth = monthInputRef.current.value;
 
   // rediriger l'utilisateur vers la page '/events/${selectedYear}/${selectedMonth}'
+  // c'est cette fonction qui passera les valeurs des champs 'year' et 'month' du formulaire au composant parent 'AllEventsPage' pour qu'il puisse les utiliser
   props.onSearch(selectedYear, selectedMonth);
 }
 
