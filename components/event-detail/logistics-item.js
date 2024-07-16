@@ -1,6 +1,7 @@
 import classes from '../../styles/event-detail/logistics-item.module.css';
 
 function LogisticsItem(props) {
+  // extraire les données de props: c'est ce qu'on appelle la destructuration
   const { icon: Icon } = props;
 
   return (

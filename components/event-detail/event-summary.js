@@ -1,6 +1,7 @@
 import classes from '../../styles/event-detail/event-summary.module.css';
 
 function EventSummary(props) {
+  // extraire les données de props: c'est ce qu'on appelle la destructuration
   const { title } = props;
 
   return (

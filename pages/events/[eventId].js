@@ -11,7 +11,7 @@ export default function EventsDetailPage() {
   const router = useRouter();
 
   // recuperer le parametre eventId de l'url
-  const eventId = router.query.eventId;
+  const eventId = router.query.eventId
 
   // appeler la fonction getEventById() du fichier 'dummy-data.js' pour recuperer les données de l'événement
   const event = getEventById(eventId);
@@ -24,12 +24,7 @@ export default function EventsDetailPage() {
   return (
     <Fragment>
       <EventSummary title={event.title} />
-      <EventLogistics
-        date={event.date}
-        address={event.location}
-        image={event.image}
-        imageAlt={event.title}
-      />
+      <EventLogistics date={event.date} address={event.location} image={event.image} imageAlt={event.title} />
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
