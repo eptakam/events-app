@@ -1,4 +1,4 @@
-import classes from "../../styles/button.module.css";
+import classes from "../../styles/ui/button.module.css";
 
 import Link from "next/link";
 

@@ -1,4 +1,4 @@
-import classes from "../../styles/event-item.module.css";
+import classes from "../../styles/events/event-item.module.css";
 
 import AddressIcon from "../icons/address-icon";
 import ArrowRightIcon from "../icons/arrow-right-icon";

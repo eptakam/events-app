@@ -1,4 +1,4 @@
-import classes from '../../styles/logistics-item.module.css';
+import classes from '../../styles/event-detail/logistics-item.module.css';
 
 function LogisticsItem(props) {
   const { icon: Icon } = props;

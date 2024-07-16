@@ -1,4 +1,4 @@
-import classes from '../../styles/event-list.module.css';
+import classes from '../../styles/events/event-list.module.css';
 
 import EventItem from "./event-item";
 

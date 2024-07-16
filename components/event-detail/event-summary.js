@@ -1,4 +1,4 @@
-import classes from '../../styles/event-summary.module.css';
+import classes from '../../styles/event-detail/event-summary.module.css';
 
 function EventSummary(props) {
   const { title } = props;
