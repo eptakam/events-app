@@ -1,21 +1,43 @@
-import Button from "../ui/button";
+/*
+    useRef est un Hook de React qui permet de conserver une référence persistante à une valeur ou à un élément du DOM à travers les rendus du composant.
+*/
 
+import { useRef } from "react";
+
+import Button from "../ui/button";
 import classes from "../../styles/events/events-search.module.css";
 
-export default function EventsSearch() {
+export default function EventsSearch(props) {
+// creer une reference pour les champs 'year' et 'month' du formulaire
+const yearInputRef = useRef();
+const monthInputRef = useRef();
+
+// function qui sera declenchée lors de la soumission du formulaire pour rediriger l'utilisateur vers la page (element) recherchee '/events/${selectedYear}/${selectedMonth}'
+function submitHandler(event) {
+  // empecher le rechargement de la page (envoyer une requette http) et perdre les données lors de la soumission du formulaire
+  event.preventDefault(); 
+
+  // recuperer les valeurs des champs 'year' et 'month' du formulaire
+  const selectedYear = yearInputRef.current.value;
+  const selectedMonth = monthInputRef.current.value;
+
+  // rediriger l'utilisateur vers la page '/events/${selectedYear}/${selectedMonth}'
+  props.onSearch(selectedYear, selectedMonth);
+}
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <div className={classes.controls}>
         <div className={classes.control}>
           <label htmlFor="year">Year</label>
-          <select id="year">
+          <select id="year" ref={yearInputRef}>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
           </select>
         </div>
         <div className={classes.control}>
           <label htmlFor="month">Month</label>
-          <select id="month">
+          <select id="month" ref={monthInputRef}>
             <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
