@@ -33,6 +33,7 @@ export default function FilteredEventsPage() {
   ) {
     return (
       <Fragment>
+        {/* le composant ErrorAlert permet de styliser l'affichage du message d'erreur */}
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
         </ErrorAlert>

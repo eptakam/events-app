@@ -7,7 +7,7 @@ export default function MainHeader() {
     <header className={classes.header}>
       <div className={classes.logo}>
         <Link href="/">NextJS Events</Link>
-        </div>
+      </div>
       <nav className={classes.navigation}>
         <ul>
           <li>

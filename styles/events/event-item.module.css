@@ -84,6 +84,7 @@
   .item img {
     width: 40%;
     height: 14rem;
+    object-fit: cover; /* Optionnel, pour couvrir la zone de l'image sans déformer l'image */
   }
 
   .content {
