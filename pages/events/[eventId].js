@@ -1,6 +1,6 @@
 // import { useRouter } from "next/router";
 
-import { getEventById, getAllEvents } from "../../helpers/api-util";
+import { getEventById, getFeaturedEvents } from "../../helpers/api-util";
 import { Fragment } from "react";
 
 import EventSummary from "../../components/event-detail/event-summary";
@@ -22,9 +22,9 @@ export default function EventsDetailPage(props) {
   // le composant ErrorAlert permet de styliser l'affichage du message d'erreur
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No event found!</p>
-      </ErrorAlert>
+      <div className="center">
+        <p>Loading...</p>
+      </div>
     );
   }
 
@@ -45,6 +45,7 @@ export default function EventsDetailPage(props) {
 }
 
 export async function getStaticProps(context) {
+  // ici, nous avons besoin du context pour recuperer l'id de l'événement
   const eventId = context.params.eventId;
 
   const event = await getEventById(eventId);
@@ -53,15 +54,16 @@ export async function getStaticProps(context) {
     props: {
       selectedEvent: event,
     },
+    revalidate: 30
   };
 }
 
-// cette fonction dira a Next.js quelle page doit etre pre-rendue en fonction de l'id de l'événement
+// cette fonction dira a Next.js quelle page doit etre pre-rendue en fonction de l'id de l'événement qui dans le segment de l'url
 export async function getStaticPaths() {
-  const events = await getAllEvents();
+  const events = await getFeaturedEvents();
   const paths = events.map((event) => ({ params: { eventId: event.id } }));
   return {
     paths: paths,
-    fallback: false,
+    fallback: true,
   };
 }
