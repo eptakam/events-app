@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 
 import EventList from "../../components/events/event-list";
 import EventsSearch from "../../components/events/events-search";
-import { getAllEvents } from "../../dummy-data";
+import { getAllEvents } from "../../helpers/api-util";
 
-export default function AllEventsPage() {
+export default function AllEventsPage(props) {
   const router = useRouter();
   
   // recuperer tous les événements
-  const events = getAllEvents();
+  // const events = getAllEvents();
 
   // function qui sera declenchée lors de la soumission du formulaire lorsque la fonction 'submitHandler' du composant 'EventsSearch' sera declenchée. precisement par la fonction 'props.onSearch(selectedYear, selectedMonth);'
   function findEventsHandler(year, month) {
@@ -22,7 +22,19 @@ export default function AllEventsPage() {
   return (
     <Fragment>
       <EventsSearch onSearch={findEventsHandler}/>
-      <EventList items={events}/>
+      <EventList items={props.events}/>
     </Fragment>
   );
 }
+
+export async function getStaticProps() {
+  const events = await getAllEvents();
+
+  return {
+    props: {
+      events: events,
+    },
+    revalidate: 60,
+  };
+}
+
