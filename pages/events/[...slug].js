@@ -20,7 +20,7 @@ export default function FilteredEventsPage(props) {
   // une fonction fetcher qui prend en parametre l'url a fetcher et qui retourne une promesse.
   // SWR est utilise uniquement dans les composants React et pas dans les fonctions getServerSideProps ou getStaticProps
 
-  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
   // const fetcher = (url) => fetch(url).then((response) => response.json());
   const { data, error } = useSWR(
     "https://nextjs-course-7cc9a-default-rtdb.firebaseio.com/events.json",
@@ -43,8 +43,20 @@ export default function FilteredEventsPage(props) {
     }
   }, [data]);
 
+  // initialiser les donnees des evenements car au debut, les donnees ne sont pas encore chargees
+  let pageHeadData = (<Head>
+    <title>Filtered Events</title>
+    <meta name="description" content={`A list of filtered events.`} />
+  </Head>);
+
   if (!loadedEvents) {
-    return <p className="center">Loading...</p>;
+    return (
+      <Fragment>
+        {/* ceci est l'entete de la page */}
+        {pageHeadData}
+        <p className="center">Loading...</p>
+      </Fragment>
+    );
   }
 
   // extraire l'année et le mois du slug
@@ -54,6 +66,19 @@ export default function FilteredEventsPage(props) {
   // le + permet de convertir une chaine de caractères en nombre
   const numYear = +filteredYear;
   const numMonth = +filteredMonth;
+
+  {
+    /* ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page de facon reutilisable */
+  }
+  pageHeadData = (
+    <Head>
+      <title>filtered Events</title>
+      <meta
+        name="description"
+        content={`All events for ${numMonth}/${numYear}.`}
+      />
+    </Head>
+  );
 
   // verifier si l'année et le mois sont valides
   if (
@@ -68,6 +93,8 @@ export default function FilteredEventsPage(props) {
   ) {
     return (
       <Fragment>
+        {/* ceci est l'entete de la page */}
+        {pageHeadData}
         {/* le composant ErrorAlert permet de styliser l'affichage du message d'erreur */}
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
@@ -95,6 +122,8 @@ export default function FilteredEventsPage(props) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
+        {/* ceci est l'entete de la page */}
+        {pageHeadData}
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
@@ -110,14 +139,8 @@ export default function FilteredEventsPage(props) {
 
   return (
     <Fragment>
-      {/* ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page */}
-      <Head>
-        <title>filtered Events</title>
-        <meta
-          name="description"
-          content={`All events for ${numMonth}/${numYear}.`}
-        />
-      </Head>
+      {/* ceci est l'entete de la page */}
+      {pageHeadData}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>
