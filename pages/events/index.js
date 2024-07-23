@@ -5,6 +5,9 @@ import EventList from "../../components/events/event-list";
 import EventsSearch from "../../components/events/events-search";
 import { getAllEvents } from "../../helpers/api-util";
 
+// optimisation de la page
+import Head from "next/head";
+
 export default function AllEventsPage(props) {
   const router = useRouter();
   
@@ -21,6 +24,14 @@ export default function AllEventsPage(props) {
 
   return (
     <Fragment>
+      {/* ceci est pour l'optimisation de la page de tous les evenements: configuration de l'entete de la page */}
+      <Head>
+        <title>All Events</title>
+        <meta
+          name="description"
+          content="Find a lot of great events that allow you to evolve..."
+        />
+      </Head>
       <EventsSearch onSearch={findEventsHandler}/>
       <EventList items={props.events}/>
     </Fragment>

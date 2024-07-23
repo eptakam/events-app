@@ -8,6 +8,9 @@ import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/error-alert";
 
+// optimisation de la page
+import Head from "next/head";
+
 export default function EventsDetailPage(props) {
   // const router = useRouter();
 
@@ -30,6 +33,14 @@ export default function EventsDetailPage(props) {
 
   return (
     <Fragment>
+      {/* ceci est pour l'optimisation de la page de detail d'un evenement: configuration de l'entete de la page */}
+      <Head>
+        <title>{event.title}</title>
+        <meta
+          name="description"
+          content={event.description}
+        />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}

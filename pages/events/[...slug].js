@@ -8,6 +8,9 @@ import ErrorAlert from "../../components/ui/error-alert";
 import { notFound } from "next/navigation";
 import useSWR from "swr";
 
+// optimisation de la page
+import Head from "next/head";
+
 export default function FilteredEventsPage(props) {
   const [loadedEvents, setLoadedEvents] = useState([]);
   const router = useRouter();
@@ -107,6 +110,14 @@ export default function FilteredEventsPage(props) {
 
   return (
     <Fragment>
+      {/* ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page */}
+      <Head>
+        <title>filtered Events</title>
+        <meta
+          name="description"
+          content={`All events for ${numMonth}/${numYear}.`}
+        />
+      </Head>
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>

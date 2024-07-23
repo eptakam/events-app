@@ -16,7 +16,7 @@ export default function Homepage(props) {
     <div>
       {/* ceci est pour l'optimisation de la page d'acceuil: configuration de l'entete de la page */}
       <Head> 
-        <title>NextJS Events</title>
+        <title>Events News</title>
         <meta
           name="description"
           content="Find a lot of great events that allow you to evolve..."
