@@ -20,8 +20,8 @@ export default function FilteredEventsPage(props) {
   // une fonction fetcher qui prend en parametre l'url a fetcher et qui retourne une promesse.
   // SWR est utilise uniquement dans les composants React et pas dans les fonctions getServerSideProps ou getStaticProps
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  // const fetcher = (url) => fetch(url).then((response) => response.json());
+  // const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const fetcher = (url) => fetch(url).then((response) => response.json());
   const { data, error } = useSWR(
     "https://nextjs-course-7cc9a-default-rtdb.firebaseio.com/events.json",
     fetcher
@@ -72,7 +72,7 @@ export default function FilteredEventsPage(props) {
   {
     /* 
     logic de reutilisation de l'entete de page (pageHeadData) dans un composant:
-    
+
     ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page de facon reutilisable */
   }
   pageHeadData = (
