@@ -43,7 +43,9 @@ export default function FilteredEventsPage(props) {
     }
   }, [data]);
 
+  // logic de reutilisation de l'entete de page (pageHeadData) dans un composant
   // initialiser les donnees des evenements car au debut, les donnees ne sont pas encore chargees
+  // pageHeadData est une variable qui contient l'entete de la page de facon reutilisable. cad qu'a chaque endroit (slug)  ou j'aurai besoin d'afficher l'entete, j'aurais juste a placer pageHeadData 
   let pageHeadData = (<Head>
     <title>Filtered Events</title>
     <meta name="description" content={`A list of filtered events.`} />
@@ -68,7 +70,10 @@ export default function FilteredEventsPage(props) {
   const numMonth = +filteredMonth;
 
   {
-    /* ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page de facon reutilisable */
+    /* 
+    logic de reutilisation de l'entete de page (pageHeadData) dans un composant:
+    
+    ceci est pour l'optimisation de la page des evenements filtres: configuration de l'entete de la page de facon reutilisable */
   }
   pageHeadData = (
     <Head>
