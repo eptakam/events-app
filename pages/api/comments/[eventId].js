@@ -1,13 +1,17 @@
-import { MongoClient } from "mongodb";
+import { connectDatabase, insertDocument, getAllDocuments } from "../../../helpers/db-util";
 
 export default async function handlerComment(req, res) {
   // extrait l'id de l'evenement
   const eventId = req.query.eventId;
+  let client;
 
   // se connecter a la base de donnnees
-  const client = await MongoClient.connect(
-    "mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0"
-  );
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    res.status(500).json({ message: "Connecting to the database failed!" });
+    return;
+  }
 
   // verifier le type de methode HTTP
   if (req.method === "POST") {
@@ -23,6 +27,8 @@ export default async function handlerComment(req, res) {
       text.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
+      //  fermer la connexion
+      client.close();
       return;
     }
 
@@ -35,28 +41,30 @@ export default async function handlerComment(req, res) {
     };
 
     // inserer les commentaires dans la base de donnees MongoDb
-    const db = client.db();
-    const result = await db.collection("comments").insertOne(newComment);
+    let result;
 
-    console.log(result);
-
-    // ajouter l'id du commentaire cote client
-    newComment.id = result.insertedId;
-
-    res
-      .status(201)
-      .json({ message: "Commentaire enregistre!", text: newComment });
+    try {
+      result = await insertDocument(client, "comments", newComment);
+      // ajouter l'id du commentaire cote client
+      newComment._id = result.insertedId;
+      res
+        .status(201)
+        .json({ message: "Commentaire enregistre!", text: newComment });
+    } catch (error) {
+      res.status(500).json({ message: "Inserting data failed!" });
+      return;
+    }
   }
 
   if (req.method === "GET") {
-   // se connecter a la base de donnees
-   const db = client.db();
-
-    // recuperer les commentaires de la base de donnees
-   const documents = await db.collection("comments").find().sort({_id: -1}).toArray();
-   res.status(200).json({ comments: documents });
-
-    res.status(200).json({ comments: dummyList });
+    // se connecter a la base de donnees et recuperer les commentaires
+    try {
+      const documents = await getAllDocuments(client, "comments", { _id: -1 });
+      res.status(200).json({ comments: documents });
+    } catch (error) {
+      res.status(500).json({ message: "Getting comments failed!" });
+      return;
+    }
   }
 
   //  fermer la connexion

@@ -3,23 +3,8 @@ import {
   extractEmails,
 } from "../../../helpers/utilities";
 import fs from "fs";
+import { connectDatabase, insertDocument } from "../../../helpers/db-util";
 
-import { MongoClient } from "mongodb";
-
-async function connectDatabase() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0"
-  );
-
-  return client;
-}
-
-async function insertDocument(client, document) {
-  const db = client.db();
-  const result = await db.collection("newsletter").insertOne(document);
-
-  return result;
-}
 
 export default async function handler(req, res) {
   // verifier le type de methode HTTP
@@ -50,7 +35,7 @@ export default async function handler(req, res) {
     }
 
     try {
-      await insertDocument(client, { email: newUserEmail });
+      await insertDocument(client, 'newsletter', { email: newUserEmail });
       //  fermer la connexion
       client.close();
     } catch (error) {
