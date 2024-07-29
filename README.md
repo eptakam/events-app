@@ -14,6 +14,7 @@ yarn dev
 
 - create a mongodb acount: https://www.mongodb.com/products/platform/atlas-database
 - `npm install mongodb` to install
+- `const client = await MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.n0prgxt.mongodb.net/<dbname>?retryWrites=true&w=majority&appName=Cluster0');` to connect to the mongodb database
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
