@@ -10,6 +10,11 @@ npm run dev
 yarn dev
 ```
 
+### Store in a database (Mongodb)
+
+- create a mongodb acount: https://www.mongodb.com/products/platform/atlas-database
+- `npm install mongodb` to install
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
