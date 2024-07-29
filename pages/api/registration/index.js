@@ -21,9 +21,12 @@ export default async function handler(req, res) {
 
     // se connecter a la base de donnnees
     // const client = await MongoClient.connect(process.env.MONGODB_URI);
-    const client = await MongoClient.connect('mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/registration?retryWrites=true&w=majority&appName=Cluster0');
+    const client = await MongoClient.connect('mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0');
       const db = client.db();
-      await db.collection('emails').insertOne({ email: userEmail });
+      await db.collection('newsletter').insertOne({ email: userEmail });
+
+      //  fermer la connexion
+      client.close();
 
     // console.log(newUserEmail);
 
