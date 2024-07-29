@@ -49,10 +49,12 @@ export default async function handlerComment(req, res) {
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "c1", name: "Max", text: "A first comment!" },
-      { id: "c2", name: "Manuel", text: "A second comment!" },
-    ];
+   // se connecter a la base de donnees
+   const db = client.db();
+
+    // recuperer les commentaires de la base de donnees
+   const documents = await db.collection("comments").find().sort({_id: -1}).toArray();
+   res.status(200).json({ comments: documents });
 
     res.status(200).json({ comments: dummyList });
   }
