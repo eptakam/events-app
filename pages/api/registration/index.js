@@ -1,7 +1,25 @@
-import { buildRegistrationPath, extractEmails } from "../../../helpers/utilities";
-import fs from 'fs';
+import {
+  buildRegistrationPath,
+  extractEmails,
+} from "../../../helpers/utilities";
+import fs from "fs";
 
 import { MongoClient } from "mongodb";
+
+async function connectDatabase() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0"
+  );
+
+  return client;
+}
+
+async function insertDocument(client, document) {
+  const db = client.db();
+  const result = await db.collection("newsletter").insertOne(document);
+
+  return result;
+}
 
 export default async function handler(req, res) {
   // verifier le type de methode HTTP
@@ -19,14 +37,26 @@ export default async function handler(req, res) {
       email: userEmail,
     };
 
-    // se connecter a la base de donnnees
-    // const client = await MongoClient.connect(process.env.MONGODB_URI);
-    const client = await MongoClient.connect('mongodb+srv://emmataks:PKQLmy7tTqNibJ4m@cluster0.n0prgxt.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0');
-      const db = client.db();
-      await db.collection('newsletter').insertOne({ email: userEmail });
+    let client;
 
+    // se connecter a la base de donnnees
+    try {
+      client = await connectDatabase();
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Connecting to the database failed!" });
+      return;
+    }
+
+    try {
+      await insertDocument(client, { email: newUserEmail });
       //  fermer la connexion
       client.close();
+    } catch (error) {
+      res.status(500).json({ message: "Inserting data failed!" });
+      return;
+    }
 
     // console.log(newUserEmail);
 
