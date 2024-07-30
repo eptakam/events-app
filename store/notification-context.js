@@ -15,13 +15,31 @@ import { createContext, useState } from 'react';
 // creer un contexte pour les notifications
 const NotificationContext = createContext({
   notification: null, //  initialise a null mais sera un objet: { title: 'Test', message: 'This is a test.', status: 'pending' }`
-  showNotification: function() {},  // methode pour afficher une notification
+  showNotification: function(notificationData) {},  // methode pour afficher une notification
   hideNotification: function() {}
 });
 
 // creer un provider pour les notifications: ce composant enveloppera les composants qui doivent avoir acces aux notifications
 export function NotificationContextProvider(props) {
-  const [activeNotification, setActiveNotification] = useState(); // permet de manager les notifications
+  const [activeNotification, setActiveNotification] = useState(); // permet de manager l'etat des notifications
+
+  // methode pour afficher une notification
+  function showNotificationHandler(notificationData) {
+    setActiveNotification(notificationData);
+  }
+
+  // methode pour cacher une notification
+  function hideNotificationHandler() {
+    setActiveNotification(null);
+  }
+
+  // regrouper les donnees et les methodes dans un objet context qui sera fourni aux composants: notre contexte initial
+  const context = {
+    notification: activeNotification,
+    showNotification: showNotificationHandler,
+    hideNotification: hideNotificationHandler
+  };
+
   return (
     <NotificationContext.Provider>
       {props.children}
