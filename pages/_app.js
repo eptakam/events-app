@@ -11,14 +11,13 @@ import Head from "next/head";
 import "../styles/globals.css";
 
 import Layout from "../components/layout/layout";
-import Notification from "../components/ui/notification";
-import { NotificaitonContextProvider } from "../store/notification-context";
+import { NotificationContextProvider } from "../store/notification-context";
 
 function MyApp({ Component, pageProps }) {
   return (
     // envelopper l'application avec le contexte de notification
     // remarquons que nous desirons envelopper _app.js avec le contexte de notification pour que les notifications soient accessibles dans toute l'application. Pourtant ce n'est pas le cas actuellement. Pourquoi? car ce n'est pas MyApp qui est rendu en premier mais Layout. Pour que le contexte de notification soit accessible dans toute l'application, il faut envelopper Layout avec le contexte de notification. D'ou nous allons enlever le composant Notification de _app.js et le mettre dans Layout. De cette maniere, le contexte de notification sera accessible dans toute l'application.
-    <NotificaitonContextProvider>
+    <NotificationContextProvider>
       <Layout>
         <Head>
           <title>Next Events</title>
@@ -30,7 +29,7 @@ function MyApp({ Component, pageProps }) {
         </Head>
         <Component {...pageProps} />
       </Layout>
-    </NotificaitonContextProvider>
+    </NotificationContextProvider>
   );
 }
 
