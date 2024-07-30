@@ -33,7 +33,7 @@ export function NotificationContextProvider(props) {
     setActiveNotification(null);
   }
 
-  // regrouper les donnees et les methodes dans un objet context qui sera fourni aux composants: notre contexte initial
+  // regrouper les donnees et les methodes dans un objet context (notre contexte initial) qui sera fourni aux composants via le prop value du Provider
   const context = {
     notification: activeNotification,
     showNotification: showNotificationHandler,
@@ -41,7 +41,7 @@ export function NotificationContextProvider(props) {
   };
 
   return (
-    <NotificationContext.Provider>
+    <NotificationContext.Provider value={context}>
       {props.children}
     </NotificationContext.Provider>
   );
