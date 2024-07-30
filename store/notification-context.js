@@ -9,9 +9,11 @@
     Ceci sera fait au niveau de _app.js
 
     3. Consommer le contexte : Utilisez le Consumer ou le hook useContext pour accéder aux données du contexte dans les composants descendants.
+
+    4. Cacher les notifications automatiquement : Pour cacher les notifications automatiquement après un certain temps, vous pouvez utiliser setTimeout pour appeler la méthode hideNotification après un certain délai. Vous pouvez le faire dans le composant NotificationContextProvider grace à useEffect.
 */
 
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 // creer un contexte pour les notifications
 const NotificationContext = createContext({
   notification: null, //  initialise a null mais sera un objet: { title: 'Test', message: 'This is a test.', status: 'pending' }`
@@ -22,6 +24,23 @@ const NotificationContext = createContext({
 // creer un provider pour les notifications: ce composant enveloppera les composants qui doivent avoir acces aux notifications
 export function NotificationContextProvider(props) {
   const [activeNotification, setActiveNotification] = useState(); // permet de manager l'etat des notifications
+
+  // cacher les notifications automatiquement apres un certain temps
+  useEffect(() => {
+    if (
+      activeNotification &&
+      (activeNotification.status === 'success' ||
+        activeNotification.status === 'error')
+    ) {
+      const timer = setTimeout(() => {
+        setActiveNotification(null);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [activeNotification]);
 
   // methode pour afficher une notification
   function showNotificationHandler(notificationData) {
