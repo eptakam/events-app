@@ -45,7 +45,7 @@ export default async function handlerComment(req, res) {
 
     try {
       result = await insertDocument(client, "comments", newComment);
-      // ajouter l'id du commentaire cote client
+      // ajouter l'id au commentaire cote client
       newComment._id = result.insertedId;
       res
         .status(201)
